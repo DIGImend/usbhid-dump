@@ -319,6 +319,11 @@ dump_iface_list_stream(libusb_context  *ctx,
         /* Set infinite idle duration */
         LIBUSB_IFACE_GUARD(uhd_iface_set_idle(iface, 0, UHD_IO_TIMEOUT),
                            iface, "set infinite idle duration");
+
+        /* Enable KYE "tablet" mode */
+        LIBUSB_IFACE_GUARD(uhd_iface_kye_enable_tablet(iface,
+                                                       UHD_IO_TIMEOUT),
+                           iface, "enable KYE tablet mode");
     }
 
     /* Calculate number of interfaces and thus transfers */

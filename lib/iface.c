@@ -241,3 +241,40 @@ uhd_iface_set_protocol(const uhd_iface    *iface,
 }
 
 
+enum libusb_error
+uhd_iface_kye_enable_tablet(const uhd_iface    *iface,
+                            unsigned int        timeout)
+{
+    static const uint8_t    report[]    = {0x05, 0x12, 0x10, 0x11,
+                                           0x12, 0x00, 0x00, 0x00};
+    int rc;
+
+    assert(uhd_iface_valid(iface));
+
+    rc = libusb_control_transfer(iface->dev->handle,
+                                 /* host->device, class, interface */
+                                 0x21,
+                                 /* Set_Report */
+                                 0x09,
+                                 /* feature, report ID 5 */
+                                 0x305,
+                                 /* interface */
+                                 iface->number,
+                                 (unsigned char *)report, sizeof(report),
+                                 timeout);
+
+    if (rc < 0)
+        fprintf(stderr, "%s: %s\n", __FUNCTION__, libusb_strerror(rc));
+
+    /*
+     * Ignoring EPIPE, which means a STALL handshake, which is OK on
+     * control pipes and indicates request is not supported.
+     * See USB 2.0 spec, 8.4.5 Handshake Packets
+     */
+    if (rc < 0 && rc != LIBUSB_ERROR_PIPE)
+        return rc;
+
+    return LIBUSB_SUCCESS;
+}
+
+

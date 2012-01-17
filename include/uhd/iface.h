@@ -149,6 +149,17 @@ extern enum libusb_error uhd_iface_set_protocol(
                                        unsigned int        timeout);
 
 /**
+ * Set feature report required to enable KYE "tablet" mode.
+ *
+ * @param iface     The interface to set the feature report to.
+ * @param timeout   The request timeout, ms.
+ *
+ * @return Libusb error code.
+ */
+extern enum libusb_error uhd_iface_kye_enable_tablet(
+                                        const uhd_iface    *iface,
+                                        unsigned int        timeout);
+/**
  * Clear halt condition on the input interrupt endpoint of an interface.
  *
  * @param iface The interface to clear halt condition on.
