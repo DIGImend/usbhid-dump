@@ -319,6 +319,10 @@ dump_iface_list_stream(libusb_context  *ctx,
         /* Set infinite idle duration */
         LIBUSB_IFACE_GUARD(uhd_iface_set_idle(iface, 0, UHD_IO_TIMEOUT),
                            iface, "set infinite idle duration");
+
+        LIBUSB_IFACE_GUARD(uhd_iface_set_waltop_mode(iface, 0x10, 0x01,
+                                                     timeout),
+                           iface, "set waltop mode");
     }
 
     /* Calculate number of interfaces and thus transfers */

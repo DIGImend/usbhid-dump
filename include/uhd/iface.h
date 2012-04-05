@@ -149,6 +149,22 @@ extern enum libusb_error uhd_iface_set_protocol(
                                        unsigned int        timeout);
 
 /**
+ * Set Waltop mode feature.
+ *
+ * @param iface     The interface to set the feature report to.
+ * @param mode1     The first mode byte.
+ * @param mode2     The second mode byte.
+ * @param timeout   The request timeout, ms.
+ *
+ * @return Libusb error code.
+ */
+extern enum libusb_error uhd_iface_set_waltop_mode(
+                                        const uhd_iface    *iface,
+                                        uint8_t             mode1,
+                                        uint8_t             mode2,
+                                        unsigned int        timeout);
+
+/**
  * Clear halt condition on the input interrupt endpoint of an interface.
  *
  * @param iface The interface to clear halt condition on.

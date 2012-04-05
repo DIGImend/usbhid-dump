@@ -241,3 +241,42 @@ uhd_iface_set_protocol(const uhd_iface    *iface,
 }
 
 
+enum libusb_error
+uhd_iface_set_waltop_mode(const uhd_iface  *iface,
+                          uint8_t           mode1,
+                          uint8_t           mode2,
+                          unsigned int      timeout)
+{
+    uint8_t report[]    = {0x02, mode1, mode2};
+    int     rc;
+
+    assert(uhd_iface_valid(iface));
+
+    rc = libusb_control_transfer(iface->dev->handle,
+                                 LIBUSB_REQUEST_TYPE_CLASS |
+                                 LIBUSB_RECIPIENT_INTERFACE |
+                                 LIBUSB_ENDPOINT_OUT,
+                                 /* Set_Report */
+                                 0x09,
+                                 /* Feature report, ID 2 */
+                                 0x0302,
+                                 /* Interface */
+                                 iface->number,
+                                 (unsigned char *)report, sizeof(report),
+                                 timeout);
+
+    if (rc < 0)
+        fprintf(stderr, "%s: %s\n", __FUNCTION__, libusb_strerror(rc));
+
+    /*
+     * Ignoring EPIPE, which means a STALL handshake, which is OK on
+     * control pipes and indicates request is not supported.
+     * See USB 2.0 spec, 8.4.5 Handshake Packets
+     */
+    if (rc < 0 && rc != LIBUSB_ERROR_PIPE)
+        return rc;
+
+    return LIBUSB_SUCCESS;
+}
+
+
