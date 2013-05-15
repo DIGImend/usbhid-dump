@@ -149,6 +149,16 @@ extern enum libusb_error uhd_iface_set_protocol(
                                        unsigned int        timeout);
 
 /**
+ * Enable Huion proprietary tablet mode.
+ *
+ * @param iface
+ *
+ * @return Libusb error code.
+ */
+extern enum libusb_error uhd_iface_huion_enable_tablet(
+                                        const uhd_iface *iface);
+
+/**
  * Clear halt condition on the input interrupt endpoint of an interface.
  *
  * @param iface The interface to clear halt condition on.

@@ -240,4 +240,27 @@ uhd_iface_set_protocol(const uhd_iface    *iface,
     return LIBUSB_SUCCESS;
 }
 
+enum libusb_error
+uhd_iface_huion_enable_tablet(const uhd_iface *iface)
+{
+    int rc;
+    unsigned char data[22];
+
+    assert(uhd_iface_valid(iface));
+
+    rc = libusb_get_string_descriptor(iface->dev->handle,
+				      /* descriptor index */
+				      0x64,
+				      /* LANGID, English (United States) */
+				      0x0409,
+				      /* data from the descriptor */
+				      (unsigned char *)data,
+				      sizeof(data)
+				      );
+
+    if (rc < 0 && rc != LIBUSB_ERROR_PIPE)
+        return rc;
+
+    return LIBUSB_SUCCESS;
+}
 
