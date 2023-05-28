@@ -8,6 +8,8 @@ Installation
 
 Run `./configure && make` to build and `make install` to install. If building from a Git tree, run `./bootstrap` first. Usbhid-dump can also be run directly from the source directory as `src/usbhid-dump`, without installation.
 
+Example: [![Build](https://github.com/DIGImend/usbhid-dump/actions/workflows/build.yml/badge.svg)](https://github.com/DIGImend/usbhid-dump/actions/workflows/build.yml)
+
 Usage
 -----
 
