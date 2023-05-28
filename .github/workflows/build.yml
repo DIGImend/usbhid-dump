@@ -1,0 +1,24 @@
+name: Build
+
+on: push
+
+jobs:
+  ubuntu-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Dependencies
+      run: |
+        sudo apt install libtool libusb-1.0-0-dev
+
+    - run: ./bootstrap
+
+    - run: ./configure
+
+    - run: make
+
+    - run: sudo make install
+
+
